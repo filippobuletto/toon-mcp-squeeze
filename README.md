@@ -1,6 +1,19 @@
+<div align="center">
+
 # toon-mcp-squeeze
 
 A Claude Code plugin that re-encodes JSON returned by MCP tools as [TOON](https://toonformat.dev/) before Claude reads it. Large lists of similar records, such as issues, pods or query rows, become compact tables, often 30-60% fewer tokens.
+
+[![Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Ffilippobuletto%2Ftoon-mcp-squeeze%2Fmain%2F.claude-plugin%2Fplugin.json&query=%24.version&label=version)](.claude-plugin/plugin.json)
+[![License](https://img.shields.io/github/license/filippobuletto/toon-mcp-squeeze)](LICENSE)
+[![Last commit](https://img.shields.io/github/last-commit/filippobuletto/toon-mcp-squeeze)](https://github.com/filippobuletto/toon-mcp-squeeze/commits/main)
+[![Claude Code](https://img.shields.io/badge/Claude_Code-plugin-D97757?logo=claude&logoColor=white)](https://code.claude.com/docs/en/plugins)
+[![MCP](https://img.shields.io/badge/MCP-tools-6E56CF?logo=modelcontextprotocol&logoColor=white)](https://modelcontextprotocol.io/)
+[![TOON](https://img.shields.io/badge/format-TOON-2B6CB0)](https://toonformat.dev/)
+[![Bash](https://img.shields.io/badge/shell-Bash-4EAA25?logo=gnu-bash&logoColor=white)](scripts/mcp-toon.sh)
+[![jq](https://img.shields.io/badge/requires-jq-blue)](https://jqlang.org/)
+
+</div>
 
 ```text
 [MCP JSON output re-encoded as TOON; decode with `toon --decode` if JSON needed]
