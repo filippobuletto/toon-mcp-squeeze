@@ -30,11 +30,15 @@ jq -e --arg inc "$INCLUDE" --arg exc "$EXCLUDE" '
 
 jq -c '.tool_response' "$work/event.json" > "$work/resp.json" || exit 0
 
-# encode <json-text-file> <toon-file>: fails if too small, not an object/array, or not encodable
+# encode <json-text-file> <toon-file>: fails if too small, not an object/array, not encodable,
+# or not smaller than the original once the label line is added
 encode() {
-  (( $(wc -c < "$1") >= MIN_BYTES )) || return 1
+  local size
+  size=$(wc -c < "$1")
+  (( size >= MIN_BYTES )) || return 1
   jq -e 'type == "object" or type == "array"' "$1" >/dev/null 2>&1 || return 1
-  "$TOON" --encode "$1" -o "$2" >/dev/null 2>&1
+  "$TOON" --encode "$1" -o "$2" >/dev/null 2>&1 || return 1
+  (( ${#LABEL} + 1 + $(wc -c < "$2") < size ))
 }
 
 changed=0

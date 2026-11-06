@@ -35,6 +35,8 @@ check "string: large JSON becomes TOON" "[30]{id,name,role}:" "$(jq -r '.hookSpe
 # Pass-through cases produce no output
 check "small JSON only: no output" "" "$(event mcp__srv__list "[{\"type\":\"text\",\"text\":$small}]" | run)"
 check "non-JSON text: no output" "" "$(event mcp__srv__list "[{\"type\":\"text\",\"text\":\"$filler\"}]" | run)"
+logs=$(jq -nc --arg f "$filler" '{name: "pod-0", logs: ([range(5)] | map("line \(.) \($f)") | join("\n"))} | tojson')
+check "TOON not smaller: no output" "" "$(event mcp__srv__logs "[{\"type\":\"text\",\"text\":$logs}]" | run)"
 check "toon missing: no output" "" "$(event mcp__srv__list "$big" | CLAUDE_PLUGIN_OPTION_TOON_PATH=/nonexistent/toon run)"
 
 # Threshold option
