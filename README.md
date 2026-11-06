@@ -67,6 +67,29 @@ Example: convert GitHub and Kubernetes tools, but not file contents:
 
 TOON pays off on uniform arrays of objects. It saves little on deeply nested or irregular JSON. Exclude tools whose output Claude copies back verbatim, such as file contents or manifests it edits and re-applies.
 
+## Tested with mcp-server-kubernetes
+
+Checked against [mcp-server-kubernetes](https://github.com/Flux159/mcp-server-kubernetes) 4.2.1 with `ALLOW_ONLY_NON_DESTRUCTIVE_TOOLS=true`, on minikube with Claude Code 2.1.311. All 17 tools the server exposes in that mode keep working, and every converted result decodes with `toon --decode` to exactly the original JSON.
+
+| Tool call | JSON | Sent to Claude | Saved |
+| :- | -: | -: | -: |
+| `kubectl_get` pods in one namespace | 2,010 B | 861 B | 57% |
+| `kubectl_get` pods in all namespaces | 3,777 B | 1,578 B | 58% |
+| `kubectl_get` a single pod | 7,498 B | 3,318 B | 56% |
+| `kubectl_get` namespaces | 969 B | 461 B | 52% |
+| `kubectl_get` services in all namespaces | 683 B | 373 B | 45% |
+| `kubectl_create` dry run, json output | 786 B | 419 B | 47% |
+| `kubectl_get` a ConfigMap | 710 B | 631 B | 11% |
+| `kubectl_get` events, saved to file | 123,289 B | 46,665 B `.toon` file | 62% |
+
+Byte counts include the label line.
+
+What passes through unchanged:
+
+- Text output: `kubectl_get` with `wide`, `yaml` or `name` output, `kubectl_describe`, `explain_resource`, `list_api_resources`, `kubectl_rollout`, and the apply and patch messages.
+- Small JSON under `min_bytes`: `ping`, `kubectl_context`, `kubectl_scale`, the Helm tools, `port_forward` and `kubectl_reconnect`.
+- `kubectl_logs`. Its JSON is mostly one long string, so TOON plus the label would be larger than the original.
+
 ## Development
 
 ```bash
