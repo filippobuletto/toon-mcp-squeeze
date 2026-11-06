@@ -1,0 +1,37 @@
+{
+  "name": "toon-mcp-squeeze",
+  "version": "0.1.0",
+  "description": "Re-encode JSON returned by MCP tools as TOON before Claude reads it, cutting tokens on large tabular results",
+  "author": { "name": "Filippo Buletto", "url": "https://github.com/filippobuletto" },
+  "homepage": "https://github.com/filippobuletto/toon-mcp-squeeze",
+  "repository": "https://github.com/filippobuletto/toon-mcp-squeeze",
+  "license": "MIT",
+  "keywords": ["toon", "mcp", "tokens", "hooks", "json"],
+  "userConfig": {
+    "include_tools": {
+      "type": "string",
+      "title": "Tools to convert",
+      "description": "Regex matched against the whole MCP tool name, e.g. mcp__github__.*|mcp__kubernetes__.*",
+      "default": "mcp__.*"
+    },
+    "exclude_tools": {
+      "type": "string",
+      "title": "Tools to skip",
+      "description": "Regex matched against the whole tool name; matches are never converted. Leave empty for none",
+      "default": ""
+    },
+    "min_bytes": {
+      "type": "number",
+      "title": "Minimum size (bytes)",
+      "description": "Text blocks smaller than this pass through unchanged",
+      "default": 500,
+      "min": 0
+    },
+    "toon_path": {
+      "type": "string",
+      "title": "toon executable",
+      "description": "Absolute path to toon when it isn't on Claude Code's PATH (e.g. installed under nvm). Leave empty to use PATH",
+      "default": ""
+    }
+  }
+}

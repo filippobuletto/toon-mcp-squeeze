@@ -1,0 +1,12 @@
+{
+  "name": "toon-mcp-squeeze",
+  "description": "Marketplace for the toon-mcp-squeeze plugin",
+  "owner": { "name": "Filippo Buletto", "url": "https://github.com/filippobuletto" },
+  "plugins": [
+    {
+      "name": "toon-mcp-squeeze",
+      "source": "./",
+      "description": "Re-encode JSON returned by MCP tools as TOON before Claude reads it"
+    }
+  ]
+}
