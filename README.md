@@ -27,6 +27,8 @@ A Claude Code plugin that re-encodes JSON returned by MCP tools as [TOON](https:
 
 A `PostToolUse` hook matches every `mcp__.*` tool and runs `scripts/mcp-toon.sh`. For each text block in the result that holds a JSON object or array of at least `min_bytes`, the hook replaces the text with a label line and the TOON encoding, using `updatedToolOutput`. Everything else passes through unchanged: images, plain text, small blocks, blocks whose TOON plus label would not be smaller, and tools filtered out by your options.
 
+Claude Code saves results over 50,000 characters to a file in the session's `tool-results` directory, so the hook only sees a message naming that file. In that case the hook writes a TOON copy next to it, points the message at the `.toon` file, and names the original JSON in the label for `jq` queries. Files outside the current session's `tool-results` directory are never read.
+
 The hook fails safe. If toon is missing, a regex is invalid or encoding fails, Claude gets the original output.
 
 Payloads move through temp files, not shell variables, and the toon CLI streams file-to-file. Claude Code still needs the final result as one JSON document, so the hook holds the converted output in memory once at the end.

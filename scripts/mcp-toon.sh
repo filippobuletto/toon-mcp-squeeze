@@ -41,12 +41,29 @@ encode() {
   (( ${#LABEL} + 1 + $(wc -c < "$2") < size ))
 }
 
+# Oversized results reach the hook as a message naming the file Claude Code saved them to.
+# spill: encode that file to a sibling .toon and point the message at it. Only files under
+# this session's tool-results directory are read.
+spill() {
+  local src dir dst
+  src=$(jq -r '.tool_response | capture("Output has been saved to (?<p>/[^\n]*?\\.txt)\\.\n").p // empty' "$work/event.json")
+  dir=$(jq -r '.transcript_path // "" | rtrimstr(".jsonl")' "$work/event.json")
+  [[ -n $src && -n $dir && $src == "$dir"/tool-results/* && $src != */../* && -f $src && ! -L $src ]] || return 1
+  dst=${src%.txt}.toon
+  encode "$src" "$work/spill.toon" && mv "$work/spill.toon" "$dst" || return 1
+  jq --arg s "$src" --arg d "$dst" --arg l "${LABEL%]}; original JSON at $src]" \
+    '$l + "\n" + (split($s) | join($d))' "$work/resp.json" > "$work/next.json" &&
+    mv "$work/next.json" "$work/resp.json"
+}
+
 changed=0
 case $(jq -r 'type' "$work/resp.json") in
   string)
     jq -j '.' "$work/resp.json" > "$work/s.json"
     if encode "$work/s.json" "$work/s.toon"; then
       jq -n --arg l "$LABEL" --rawfile t "$work/s.toon" '$l + "\n" + $t' > "$work/resp.json" || exit 0
+      changed=1
+    elif spill; then
       changed=1
     fi ;;
   array)
