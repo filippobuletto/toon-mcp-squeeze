@@ -41,8 +41,8 @@ Payloads move through temp files, not shell variables, and the toon CLI streams 
 ## Install
 
 ```text
-/plugin marketplace add filippobuletto/toon-mcp-squeeze
-/plugin install toon-mcp-squeeze@toon-mcp-squeeze
+/plugin marketplace add filippobuletto/claude-plugins
+/plugin install toon-mcp-squeeze@filippobuletto
 ```
 
 Then run `/toon-mcp-squeeze:setup`. It checks prerequisites, helps you choose which MCP tools to convert, measures savings and verifies the hook.
