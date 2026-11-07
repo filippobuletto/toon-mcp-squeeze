@@ -59,7 +59,7 @@ For a candidate tool, save a representative JSON result to a file under the syst
 
 ## 4. Apply the options
 
-Options live in the plugin's configuration, not in the script. Tell the user to change them in `/config` (the toon-mcp-squeeze rows) or through `/plugin`. If they ask you to apply them, edit `pluginConfigs["toon-mcp-squeeze@toon-mcp-squeeze"].options` in `~/.claude/settings.json`. Show the change and get confirmation first, keep other keys intact, and store `min_bytes` as a number. New values reach the hook on the next tool call after Claude Code reloads its settings; if they don't, restart the session.
+Options live in the plugin's configuration, not in the script. Tell the user to change them in `/config` (the toon-mcp-squeeze rows) or through `/plugin`. If they ask you to apply them, edit `pluginConfigs["toon-mcp-squeeze@filippobuletto"].options` in `~/.claude/settings.json`. Show the change and get confirmation first, keep other keys intact, and store `min_bytes` as a number. New values reach the hook on the next tool call after Claude Code reloads its settings; if they don't, restart the session.
 
 ## 5. verify: confirm it works
 
