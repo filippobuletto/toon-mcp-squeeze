@@ -2,20 +2,11 @@
   "name": "toon-mcp-squeeze",
   "version": "1.1.1",
   "description": "Re-encode JSON returned by MCP tools as TOON before Claude reads it, cutting tokens on large tabular results",
-  "author": {
-    "name": "Filippo Buletto",
-    "url": "https://github.com/filippobuletto"
-  },
+  "author": { "name": "Filippo Buletto", "url": "https://github.com/filippobuletto" },
   "homepage": "https://github.com/filippobuletto/toon-mcp-squeeze",
   "repository": "https://github.com/filippobuletto/toon-mcp-squeeze",
   "license": "MIT",
-  "keywords": [
-    "toon",
-    "mcp",
-    "tokens",
-    "hooks",
-    "json"
-  ],
+  "keywords": ["toon", "mcp", "tokens", "hooks", "json"],
   "userConfig": {
     "include_tools": {
       "type": "string",
